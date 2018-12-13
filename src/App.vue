@@ -1,17 +1,36 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-header :seller="seller"></v-header>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import VHeader from 'components/v-header/v-header'
+import { getSeller, getGoods } from 'api'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      seller: {}
+    }
+  },
+  created() {
+    // 調用封裝後的api方法直接取得資料
+    this._getSeller()
+    this._getGoods()
+  },
+  methods: {
+    // 將api請求封裝載methods內，將生命週期更簡潔清楚
+    _getSeller() {
+      getSeller().then(seller => (this.seller = seller))
+    },
+    _getGoods() {
+      getGoods().then(goods => console.log(goods))
+    }
+  },
   components: {
-    HelloWorld
+    VHeader
   }
 }
 </script>
